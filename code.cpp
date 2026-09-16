@@ -4,6 +4,7 @@
 #include<chrono>
 #include<string>
 #include<cmath>
+#include<limits>
 using namespace std;
 
 struct ParkingSession
@@ -110,47 +111,50 @@ class ParkingLot
 };
 int main()
 {
-    ParkingLot myLot(250,50.0);
+    ParkingLot myLot(250, 50.0);
     int choice;
     string licensePlate;
 
-    for(;;)
+    for (;;)
     {
-        cout<<"\n========WELCOME TO SHEILA'S PARKING=========\n";
-        cout<<"Slots available:"<<myLot.getAvailableSpots()<<"/250\n";
-        cout<<"1.Check in vehicle\n";
-        cout<<"2.Check out vehicle\n";
-        cout<<"3.Exit\n";
-        cout<<"Select your action(ie 1-3):";
-        cin>>choice;
-        
-        switch(choice)
+        cout << "\n========WELCOME TO SHEILA'S PARKING=========\n";
+        cout << "Slots available:" << myLot.getAvailableSpots() << "/250\n";
+        cout << "1.Check in vehicle\n";
+        cout << "2.Check out vehicle\n";
+        cout << "3.Exit\n";
+        cout << "Select your action(ie 1-3):";
+
+        if (!(cin >> choice)) {                          // <-- FIX #2
+            cin.clear();
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            cout << "INVALID-CHOOSE 1,2,3\n";
+            continue;
+        }
+
+        switch (choice)
         {
             case 1:
-            cout<<"Enter license plate:";
-            cin>>licensePlate;
-            myLot.checkInVehicle(licensePlate);
-            break;
+                cout << "Enter license plate:";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // <-- FIX #1
+                getline(cin, licensePlate);
+                myLot.checkInVehicle(licensePlate);
+                break;
 
             case 2:
-            cout<<"Enter license plate:";
-            cin>>licensePlate;
-            myLot.checkOutVehicle(licensePlate);
-            break;
-            
+                cout << "Enter license plate:";
+                cin.ignore(numeric_limits<streamsize>::max(), '\n'); // <-- FIX #1
+                getline(cin, licensePlate);
+                myLot.checkOutVehicle(licensePlate);
+                break;
+
             case 3:
-            cout<<"THANKS FOR USING OUR PARKING LOT!\n";
-            return 0;
-             
+                cout << "THANKS FOR USING OUR PARKING LOT!\n";
+                return 0;
+
             default:
-            cout<<"INVALID-CHOOSE 1,2,3\n";
-            break;
-        
-
-
+                cout << "INVALID-CHOOSE 1,2,3\n";
+                break;
         }
     }
     return 0;
 }
-
-
