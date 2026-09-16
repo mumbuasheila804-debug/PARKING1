@@ -78,22 +78,27 @@ class ParkingLot
                 auto checkOutTime=chrono::system_clock::now();
                 chrono::duration<double>duration=checkOutTime-session.checkInTime;
                 double totalMinutes=duration.count()/60.0;
-                double fee=0.0;
-                if(totalMinutes<=30)
-                {
-                    fee=0.0;
-                }
-                else if(totalMinutes<=60)
-                
-            {
-                fee=50.0;
-
-                }
-                else{
-                    double extraMinutes=totalMinutes-60;
-                    double extraHours=ceil(extraMinutes/60.0);
-                    fee= 50.0+(extraHours * 50.0);
-                }
+double fee=0.0;
+if(totalMinutes<=30)
+{
+    fee=0.0;
+}
+else if(totalMinutes<=120)
+{
+    fee=50.0;
+}
+else if(totalMinutes<=240)
+{
+    fee=100.0;
+}
+else if(totalMinutes<=360)
+{
+    fee=300.0;
+}
+else
+{
+    fee=500.0;
+}
             
             activeSessions.erase(it);
             availableSpots.push(session.spotId);
